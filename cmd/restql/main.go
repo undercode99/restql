@@ -17,11 +17,11 @@ func main() {
 	godotenv.Load()
 
 	dbConnect, err := db.NewDatabaseConnect(&db.Database{
-		Username: os.Getenv("USERNAME"),
-		Password: os.Getenv("PASSWORD"),
-		Host:     os.Getenv("HOST"),
-		Port:     os.Getenv("PORT"),
-		Database: os.Getenv("DATABASE"),
+		Username: os.Getenv("DB_USERNAME"),
+		Password: os.Getenv("DB_PASSWORD"),
+		Host:     os.Getenv("DB_HOST"),
+		Port:     os.Getenv("DB_PORT"),
+		Database: os.Getenv("DB_NAME"),
 		Driver:   "postgres",
 	})
 	if err != nil {
