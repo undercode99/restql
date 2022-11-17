@@ -8,9 +8,9 @@ import (
 type Query struct {
 	Db          *sql.DB
 	Sql         string
-	Data        []interface{}
+	BindData    []interface{}
 	ColumnTypes []*sql.ColumnType
-	ResultList  [][]interface{}
+	ResultRows  [][]interface{}
 }
 
 func NewQuery(db *sql.DB, sql string) *Query {
@@ -21,7 +21,7 @@ func NewQuery(db *sql.DB, sql string) *Query {
 }
 
 func (q *Query) Do() error {
-	rows, err := q.Db.Query(q.Sql, q.Data...)
+	rows, err := q.Db.Query(q.Sql, q.BindData...)
 	if err != nil {
 		return err
 	}
@@ -78,7 +78,7 @@ func (q *Query) Do() error {
 	}
 
 	q.ColumnTypes = columnTypes
-	q.ResultList = resultList
+	q.ResultRows = resultList
 
 	return nil
 
@@ -116,13 +116,13 @@ func (q *Query) GetColumnNamesAndTypes() []string {
 	return columnNamesAndTypes
 }
 
-func (q *Query) GetResultList() [][]interface{} {
-	return q.ResultList
+func (q *Query) GetResultRows() [][]interface{} {
+	return q.ResultRows
 }
 
-func (q *Query) GetResultMap() []map[string]interface{} {
+func (q *Query) GetResultMapRows() []map[string]interface{} {
 	resultMap := []map[string]interface{}{}
-	for _, row := range q.ResultList {
+	for _, row := range q.ResultRows {
 		rowMap := make(map[string]interface{})
 		for i, columnType := range q.ColumnTypes {
 			rowMap[columnType.Name()] = row[i]

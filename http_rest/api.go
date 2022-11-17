@@ -11,23 +11,23 @@ type ApiConfig struct {
 }
 
 type Api struct {
-	apiConfig *ApiConfig
-	engine    *gin.Engine
-	db        *db.Database
+	apiConfig              *ApiConfig
+	engine                 *gin.Engine
+	listDatabaseConnection *db.ListDatabaseConnect
 }
 
-func NewApi(apiConfig *ApiConfig, dbConfig *db.Database) *Api {
+func NewApi(apiConfig *ApiConfig, listCon *db.ListDatabaseConnect) *Api {
 	return &Api{
-		apiConfig: apiConfig,
-		db:        dbConfig,
+		apiConfig:              apiConfig,
+		listDatabaseConnection: listCon,
 	}
 }
 
 func (a *Api) Run() {
 
-	if a.apiConfig.Mode != "dev" {
-		gin.SetMode(gin.ReleaseMode)
-	}
+	// if a.apiConfig.Mode != "dev" {
+	// 	gin.SetMode(gin.ReleaseMode)
+	// }
 
 	a.engine = gin.Default()
 	a.routes()
